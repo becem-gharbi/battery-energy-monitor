@@ -18,19 +18,19 @@ void Rtc::begin()
         //    1) first time you ran and the device wasn't running yet
         //    2) the battery on the device is low or even missing
 
-        Serial.println("RTC lost confidence in the DateTime!");
+        Serial.println("[RTC] lost confidence in the DateTime");
         _ds1302.SetDateTime(compiled);
     }
 
     if (_ds1302.GetIsWriteProtected())
     {
-        Serial.println("RTC was write protected, enabling writing now");
+        Serial.println("[RTC] was write protected, enabling writing now");
         _ds1302.SetIsWriteProtected(false);
     }
 
     if (!_ds1302.GetIsRunning())
     {
-        Serial.println("RTC was not actively running, starting now");
+        Serial.println("[RTC] was not actively running, starting now");
         _ds1302.SetIsRunning(true);
     }
 
@@ -38,16 +38,16 @@ void Rtc::begin()
 
     if (now < compiled)
     {
-        Serial.println("RTC is older than compile time!  (Updating DateTime)");
+        Serial.println("[RTC] is older than compile time!  (Updating DateTime)");
         _ds1302.SetDateTime(compiled);
     }
     else if (now > compiled)
     {
-        Serial.println("RTC is newer than compile time. (this is expected)");
+        Serial.println("[RTC] is newer than compile time. (this is expected)");
     }
     else if (now == compiled)
     {
-        Serial.println("RTC is the same as compile time! (not expected but all is fine)");
+        Serial.println("[RTC] is the same as compile time! (not expected but all is fine)");
     }
 }
 
@@ -59,7 +59,7 @@ String Rtc::getTimestamp()
     {
         // Common Causes:
         //    1) the battery on the device is low or even missing and the power line was disconnected
-        Serial.println("RTC lost confidence in the DateTime!");
+        Serial.println("[RTC] lost confidence in the DateTime!");
         return "error";
     }
     else
