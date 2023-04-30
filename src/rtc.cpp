@@ -69,13 +69,13 @@ String Rtc::getTimestamp()
 
         snprintf_P(timestamp,
                    countof(timestamp),
-                   PSTR("%02u/%02u/%04u %02u:%02u:%02u"),
-                   now.Month(),
+                   PSTR("%02u-%02u-%04u-%02u-%02u-%02u"),
                    now.Day(),
+                   now.Month(),
                    now.Year(),
-                   now.Hour(),
+                   now.Second(),
                    now.Minute(),
-                   now.Second());
+                   now.Hour());
 
         return timestamp;
     }

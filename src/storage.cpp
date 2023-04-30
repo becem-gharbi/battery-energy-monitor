@@ -21,7 +21,7 @@ void Storage::begin()
 
 void Storage::_loadSettings()
 {
-    File settingsFile = SD.open(SETTINGS_FILE_PATH);
+    File settingsFile = SD.open(SETTINGS_FILE_PATH, FILE_READ);
 
     StaticJsonDocument<SETTINGS_DOC_SIZE> settingsDoc;
     DeserializationError error = deserializeJson(settingsDoc, settingsFile);
@@ -36,4 +36,9 @@ void Storage::_loadSettings()
 
     Serial.println("[storage] settings loaded");
     settingsFile.close();
+}
+
+void Storage::createSession(String timestamp)
+{
+    _sessionFile = SD.open(SESSION_FILE_PATH(timestamp), FILE_WRITE);
 }

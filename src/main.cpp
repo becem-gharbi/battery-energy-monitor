@@ -48,6 +48,8 @@ void setup()
 
   adcMux.begin(storage.settings.data.adcMuxCtrlDelayMs);
 
+  storage.createSession(rtc.getTimestamp());
+
   ticker.attach(storage.settings.data.sampleRateMs / 1000.0, []
                 { timeElapsed = true; });
 }
