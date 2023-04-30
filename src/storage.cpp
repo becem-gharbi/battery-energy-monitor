@@ -10,9 +10,30 @@ void Storage::begin()
 {
     if (!SD.begin(_csPin))
     {
-        Serial.println("[SD] initialization failed");
+        Serial.println("[storage] failed to initialize sd");
         return;
     }
 
-    Serial.println("[SD] initialized");
+    Serial.println("[storage] sd initialized");
+
+    _loadSettings();
+}
+
+void Storage::_loadSettings()
+{
+    File settingsFile = SD.open(SETTINGS_FILE_PATH);
+
+    StaticJsonDocument<SETTINGS_DOC_SIZE> settingsDoc;
+    DeserializationError error = deserializeJson(settingsDoc, settingsFile);
+
+    if (error)
+    {
+        Serial.println("[storage] file <settings.json> not found, using default settings");
+    }
+
+    settings.data.adcMuxCtrlDelayMs = settingsDoc["data"]["adcMuxCtrlDelayMs"] | ADC_MUX_CTRL_DELAY_MS;
+    settings.data.sampleRateMs = settingsDoc["data"]["sampleRateMs"] | SAMPLE_RATE_MS;
+
+    Serial.println("[storage] settings loaded");
+    settingsFile.close();
 }

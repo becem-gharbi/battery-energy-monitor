@@ -5,15 +5,17 @@ AdcMux::AdcMux(u_int8_t cmdPin)
      _cmdPin = cmdPin;
 }
 
-void AdcMux::begin()
+void AdcMux::begin(u_int8_t ctrlDelayMs)
 {
+     _ctrlDelayMs = ctrlDelayMs;
+
      pinMode(_cmdPin, OUTPUT);
 
      for (u_int8_t i = 0; i < NBR_OF_CHANNELS; i++)
      {
           _control(i);
 
-          values[0] = analogRead(A0);
+          values[0] = analogRead(ANALOG_PIN);
      }
 }
 
@@ -29,7 +31,7 @@ void AdcMux::_control(u_int8_t cmd)
           break;
      }
 
-     delay(5);
+     delay(_ctrlDelayMs);
 }
 
 void AdcMux::update()
@@ -38,6 +40,6 @@ void AdcMux::update()
      {
           _control(i);
 
-          values[i] = (values[i] + analogRead(A0)) / 2;
+          values[i] = (values[i] + analogRead(ANALOG_PIN)) / 2;
      }
 }

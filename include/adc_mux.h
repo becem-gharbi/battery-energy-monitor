@@ -4,18 +4,19 @@
 #include <Arduino.h>
 
 #define NBR_OF_CHANNELS 2
-
+#define ANALOG_PIN A0
 class AdcMux
 {
 public:
     AdcMux(u_int8_t cmdPin);
-    void begin();
+    void begin(u_int8_t ctrlDelayMs);
     u_int16_t values[NBR_OF_CHANNELS];
     void update();
 
 private:
     u_int8_t _cmdPin;
     void _control(u_int8_t);
+    u_int8_t _ctrlDelayMs;
 };
 
 #endif

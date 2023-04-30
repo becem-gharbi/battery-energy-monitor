@@ -40,14 +40,15 @@ bool timeElapsed = false;
 void setup()
 {
   Serial.begin(115200);
+  delay(2000);
 
   storage.begin();
 
   rtc.begin();
 
-  adcMux.begin();
+  adcMux.begin(storage.settings.data.adcMuxCtrlDelayMs);
 
-  ticker.attach(SAMPLE_RATE, []
+  ticker.attach(storage.settings.data.sampleRateMs / 1000.0, []
                 { timeElapsed = true; });
 }
 
@@ -59,6 +60,6 @@ void loop()
   {
     timeElapsed = false;
     timestamp = rtc.getTimestamp();
-    // Serial.println(timestamp);
+    Serial.println(timestamp);
   }
 }
