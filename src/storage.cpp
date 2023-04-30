@@ -1,18 +1,21 @@
 #include <storage.h>
 
 Storage::Storage(u_int8_t csPin)
-
 {
     _csPin = csPin;
 }
 
-void Storage::begin()
+void Storage::begin(void (*cb)(uint16_t *, uint16_t *))
 {
     if (!SD.begin(_csPin))
     {
         Serial.println("[storage] failed to initialize sd");
         return;
     }
+
+    delay(1000);
+
+    SD.dateTimeCallback(cb);
 
     Serial.println("[storage] sd initialized");
 
@@ -40,5 +43,30 @@ void Storage::_loadSettings()
 
 void Storage::createSession(String timestamp)
 {
-    _sessionFile = SD.open(SESSION_FILE_PATH(timestamp), FILE_WRITE);
+    String filename = SESSION_FILE_PATH(timestamp);
+
+    _sessionFile = SD.open(filename, FILE_WRITE);
+
+    if (!_sessionFile)
+    {
+        Serial.println("Failed to create session file");
+        return;
+    }
+
+    StaticJsonDocument<METADATA_DOC_SIZE> metadataDoc;
+    JsonObject metadata = metadataDoc.createNestedObject("metadata");
+
+    metadata["createdAt"] = timestamp;
+    metadata["updatedAt"] = timestamp;
+
+    String metadataStr;
+
+    serializeJson(metadataDoc, metadataStr);
+
+    if (_sessionFile.println(metadataStr) == 0)
+    {
+        Serial.println("Failed to write to session file");
+    }
+
+    _sessionFile.flush();
 }

@@ -69,14 +69,21 @@ String Rtc::getTimestamp()
 
         snprintf_P(timestamp,
                    countof(timestamp),
-                   PSTR("%02u-%02u-%04u-%02u-%02u-%02u"),
-                   now.Day(),
-                   now.Month(),
+                   PSTR("%04u-%02u-%02u_%02u-%02u-%02u"), // Format YYYY-MM-DD_HH-MM-SS
                    now.Year(),
-                   now.Second(),
+                   now.Month(),
+                   now.Day(),
+                   now.Hour(),
                    now.Minute(),
-                   now.Hour());
+                   now.Second());
 
         return timestamp;
     }
+}
+
+RtcDateTime Rtc::getTime()
+{
+    RtcDateTime now = _ds1302.GetDateTime();
+
+    return now;
 }

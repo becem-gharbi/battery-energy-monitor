@@ -32,23 +32,35 @@
 Rtc rtc(RTC_IO_PIN, RTC_SCLK_PIN, RTC_CE_PIN);
 AdcMux adcMux(ADC_MUX_CMD_PIN);
 Storage storage(SD_CS_PIN);
-String timestamp;
 Ticker ticker;
 
 bool timeElapsed = false;
 
+void setTime(uint16_t *date, uint16_t *time)
+{
+  RtcDateTime now = rtc.getTime();
+  *date = FAT_DATE(now.Year(), now.Month(), now.Day());
+  *time = FAT_TIME(now.Hour(), now.Minute(), now.Second());
+}
+
 void setup()
 {
-  Serial.begin(115200);
-  delay(2000);
+  Serial.begin(9600);
 
-  storage.begin();
+  while (!Serial)
+  {
+    continue;
+  }
 
   rtc.begin();
 
+  storage.begin(setTime);
+
   adcMux.begin(storage.settings.data.adcMuxCtrlDelayMs);
 
-  storage.createSession(rtc.getTimestamp());
+  String timestamp = rtc.getTimestamp();
+
+  storage.createSession(timestamp);
 
   ticker.attach(storage.settings.data.sampleRateMs / 1000.0, []
                 { timeElapsed = true; });
@@ -61,7 +73,5 @@ void loop()
   if (timeElapsed)
   {
     timeElapsed = false;
-    timestamp = rtc.getTimestamp();
-    Serial.println(timestamp);
   }
 }

@@ -9,6 +9,7 @@ public:
     Rtc(int8_t ioPin, int8_t sclkPin, int8_t cePin);
     void begin();
     String getTimestamp();
+    RtcDateTime getTime();
 
 private:
     ThreeWire _wire;
