@@ -16,11 +16,10 @@
 */
 
 #include <Arduino.h>
-#include <rtc.h>
-#include <SPI.h>
-#include <SD.h>
 #include <Ticker.h>
+#include <rtc.h>
 #include <adc_mux.h>
+#include <storage.h>
 
 #define RTC_IO_PIN 4
 #define RTC_SCLK_PIN 5
@@ -31,10 +30,10 @@
 #define SAMPLE_RATE 1
 
 Rtc rtc(RTC_IO_PIN, RTC_SCLK_PIN, RTC_CE_PIN);
-String timestamp;
-File myFile;
-Ticker ticker;
 AdcMux adcMux(ADC_MUX_CMD_PIN);
+Storage storage(SD_CS_PIN);
+String timestamp;
+Ticker ticker;
 
 bool timeElapsed = false;
 
@@ -42,15 +41,9 @@ void setup()
 {
   Serial.begin(115200);
 
+  storage.begin();
+
   rtc.begin();
-
-  if (!SD.begin(SD_CS_PIN))
-  {
-    Serial.println("[SD] initialization failed");
-    return;
-  }
-
-  Serial.println("[SD] initialized");
 
   adcMux.begin();
 
@@ -62,13 +55,10 @@ void loop()
 {
   adcMux.update();
 
-  // Serial.print("[ADC 1] ");
-  // Serial.println(adcMux.values[0]);
-
   if (timeElapsed)
   {
     timeElapsed = false;
     timestamp = rtc.getTimestamp();
-    Serial.println(timestamp);
+    // Serial.println(timestamp);
   }
 }
