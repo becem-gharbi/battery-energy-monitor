@@ -51,7 +51,7 @@ void Rtc::begin()
     }
 }
 
-String Rtc::getTimestamp()
+String Rtc::getTimeStr()
 {
     RtcDateTime now = _ds1302.GetDateTime();
 

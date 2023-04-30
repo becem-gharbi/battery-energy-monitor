@@ -59,14 +59,12 @@ void Storage::createSession(String timestamp)
     metadata["createdAt"] = timestamp;
     metadata["updatedAt"] = timestamp;
 
-    String metadataStr;
-
-    serializeJson(metadataDoc, metadataStr);
-
-    if (_sessionFile.println(metadataStr) == 0)
+    if (serializeJson(metadataDoc, _sessionFile) == 0)
     {
         Serial.println("Failed to write to session file");
     }
 
-    _sessionFile.flush();
+    _sessionFile.close();
+
+    _sessionFile = SD.open(filename, FILE_WRITE);
 }

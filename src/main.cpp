@@ -58,7 +58,7 @@ void setup()
 
   adcMux.begin(storage.settings.data.adcMuxCtrlDelayMs);
 
-  String timestamp = rtc.getTimestamp();
+  String timestamp = rtc.getTimeStr();
 
   storage.createSession(timestamp);
 

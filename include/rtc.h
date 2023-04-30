@@ -8,7 +8,7 @@ class Rtc
 public:
     Rtc(int8_t ioPin, int8_t sclkPin, int8_t cePin);
     void begin();
-    String getTimestamp();
+    String getTimeStr();
     RtcDateTime getTime();
 
 private:
