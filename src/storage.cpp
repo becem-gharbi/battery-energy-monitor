@@ -87,6 +87,9 @@ void Storage::saveMeasurements()
 
     sessionFile.close();
 
+    // A workaround to ensure data is saved
+    SD.open(_sessionFilename);
+
     _measurementsStr = "";
 
     unsigned long stop = millis();
