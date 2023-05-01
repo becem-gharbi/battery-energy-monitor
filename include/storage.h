@@ -20,7 +20,7 @@ public:
     void begin(void (*cb)(uint16_t *, uint16_t *));
     Settings settings;
     void createSession(String timestamp);
-    void saveMeasurement(Measurement measurement);
+    void saveMeasurements(Measurement measurement[], u_int8_t length);
 
 private:
     u_int8_t _csPin;

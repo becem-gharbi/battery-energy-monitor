@@ -62,12 +62,26 @@ void setup()
 
   storage.createSession(timestamp);
 
-  Measurement mes;
-  mes.current = 10;
-  mes.voltage = 70;
-  mes.timestamp = 0;
+  Measurement mes1;
+  mes1.current = 1;
+  mes1.voltage = 2;
+  mes1.timestamp = 0;
 
-  storage.saveMeasurement(mes);
+  Measurement mes2;
+  mes2.current = 5;
+  mes2.voltage = 7;
+  mes2.timestamp = 1;
+
+  Measurement mes3;
+  mes3.current = 8;
+  mes3.voltage = 4;
+  mes3.timestamp = 2;
+
+  Measurement measurements[3] = {mes1, mes2, mes3};
+
+  u_int8_t length = sizeof(measurements) / sizeof(measurements[0]);
+
+  storage.saveMeasurements(measurements, length);
 
   ticker.attach(storage.settings.data.sampleRateMs / 1000.0, []
                 { timeElapsed = true; });

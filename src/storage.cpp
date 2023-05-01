@@ -57,16 +57,23 @@ void Storage::createSession(String timestamp)
 
     _sessionFile.println(headers);
 
-     _sessionFile.close();
+    _sessionFile.close();
 
     _sessionFile = SD.open(filename, FILE_WRITE);
 }
 
-void Storage::saveMeasurement(Measurement measurement)
+void Storage::saveMeasurements(Measurement measurements[], u_int8_t length)
 {
-    String measurementStr = String(measurement.timestamp) + "," + String(measurement.current) + "," + String(measurement.voltage);
+    Serial.println(length);
 
-    _sessionFile.println(measurementStr);
+    for (u_int8_t i = 0; i < length; i++)
+    {
+        Measurement measurement = measurements[i];
 
-    _sessionFile.flush();
+        String measurementStr = String(measurement.timestamp) + "," + String(measurement.current) + "," + String(measurement.voltage);
+
+        _sessionFile.println(measurementStr);
+
+        _sessionFile.flush();
+    }
 }
