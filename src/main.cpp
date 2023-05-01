@@ -1,18 +1,21 @@
 
 /*
   SD
-    DI/MOSI -> GPIO13
-    DO/MISO -> GPIO12
-    SCK     -> GPIO14
-    CS      -> GPIO15
+    DI/MOSI -> GPIO13 / D7 ok
+    DO/MISO -> GPIO12 / D6 ok
+    SCK     -> GPIO14 / D5 ok
+    CS      -> GPIO15 / D8 unexpected behaviour at boot
 
   RTC
-    RST/CE   -> GPIO2
-    DAT/IO   -> GPIO4
-    CLK/SCLK -> GPIO5
+    RST/CE   -> GPIO0 / D3 ok
+    DAT/IO   -> GPIO4 / D2 ok
+    CLK/SCLK -> GPIO5 / D1 ok
 
   ADC_MUX
-    CMD      -> GPIO16
+    CMD      -> GPIO16 / D0 ok
+
+  LEDS
+    ERROR    -> GPIO2 / D4 / builtin led
 */
 
 #include <Arduino.h>
@@ -23,7 +26,7 @@
 
 #define RTC_IO_PIN 4
 #define RTC_SCLK_PIN 5
-#define RTC_CE_PIN 2
+#define RTC_CE_PIN 0
 #define SD_CS_PIN 15
 #define ADC_MUX_CMD_PIN 16
 
@@ -49,6 +52,8 @@ void setup()
 {
   Serial.begin(115200);
 
+  pinMode(BUILTIN_LED, OUTPUT);
+
   while (!Serial)
   {
     continue;
@@ -73,24 +78,29 @@ void setup()
 
 void loop()
 {
-  if (sampleTrigger)
-  {
-    sampleTrigger = false;
+  digitalWrite(BUILTIN_LED, LOW);
+  delay(500);
+  digitalWrite(BUILTIN_LED, HIGH);
+  delay(500);
 
-    Measurement measurement;
-    measurement.current = adcMux.values[0] * storage.settings.data.currentFactor;
-    measurement.voltage = adcMux.values[1] * storage.settings.data.voltageFactor;
-    measurement.timestamp = adcMux.timestamp;
+  // if (sampleTrigger)
+  // {
+  //   sampleTrigger = false;
 
-    storage.keepMeasurement(measurement);
-  }
+  //   Measurement measurement;
+  //   measurement.current = adcMux.values[0] * storage.settings.data.currentFactor;
+  //   measurement.voltage = adcMux.values[1] * storage.settings.data.voltageFactor;
+  //   measurement.timestamp = adcMux.timestamp;
 
-  if (savingTrigger)
-  {
-    savingTrigger = false;
+  //   storage.keepMeasurement(measurement);
+  // }
 
-    storage.saveMeasurements();
-  }
+  // if (savingTrigger)
+  // {
+  //   savingTrigger = false;
 
-  adcMux.update();
+  //   storage.saveMeasurements();
+  // }
+
+  // adcMux.update();
 }
