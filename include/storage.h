@@ -17,16 +17,16 @@ class Storage
 {
 public:
     Storage(u_int8_t csPin);
-    void begin(void (*cb)(uint16_t *, uint16_t *));
+    bool begin(void (*cb)(uint16_t *, uint16_t *));
     Settings settings;
-    void createSession(String timestamp);
+    bool createSession(String timestamp);
     void keepMeasurement(Measurement measurement);
-    void saveMeasurements();
+    bool saveMeasurements();
 
 private:
     u_int8_t _csPin;
     String _sessionFilename;
-    void _loadSettings();
+    bool _loadSettings();
     String _measurementsStr;
 };
 

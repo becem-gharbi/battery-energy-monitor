@@ -5,12 +5,12 @@ Storage::Storage(u_int8_t csPin)
     _csPin = csPin;
 }
 
-void Storage::begin(void (*cb)(uint16_t *, uint16_t *))
+bool Storage::begin(void (*cb)(uint16_t *, uint16_t *))
 {
     if (!SD.begin(_csPin))
     {
         Serial.println("[storage] failed to initialize sd");
-        return;
+        return false;
     }
 
     delay(1000);
@@ -19,12 +19,17 @@ void Storage::begin(void (*cb)(uint16_t *, uint16_t *))
 
     Serial.println("[storage] sd initialized");
 
-    _loadSettings();
+    return _loadSettings();
 }
 
-void Storage::_loadSettings()
+bool Storage::_loadSettings()
 {
     File settingsFile = SD.open(SETTINGS_FILE_PATH, FILE_READ);
+
+    if (!settingsFile)
+    {
+        return false;
+    }
 
     StaticJsonDocument<SETTINGS_DOC_SIZE> settingsDoc;
     DeserializationError error = deserializeJson(settingsDoc, settingsFile);
@@ -32,6 +37,7 @@ void Storage::_loadSettings()
     if (error)
     {
         Serial.println("[storage] file <settings.json> not found, using default settings");
+        return false;
     }
 
     JsonObject data = settingsDoc["data"];
@@ -44,9 +50,11 @@ void Storage::_loadSettings()
 
     Serial.println("[storage] settings loaded");
     settingsFile.close();
+
+    return true;
 }
 
-void Storage::createSession(String timestamp)
+bool Storage::createSession(String timestamp)
 {
     _sessionFilename = SESSION_FILE_PATH(timestamp);
 
@@ -55,14 +63,20 @@ void Storage::createSession(String timestamp)
     if (!sessionFile)
     {
         Serial.println("[storage] failed to create session file");
-        return;
+        return false;
     }
 
     String headers = "Timestamp,Current,Voltage";
 
-    sessionFile.println(headers);
+    if (sessionFile.println(headers) == 0)
+    {
+        Serial.println("[storage] failed to write to session file");
+        return false;
+    }
 
     sessionFile.close();
+
+    return true;
 }
 
 void Storage::keepMeasurement(Measurement measurement)
@@ -72,10 +86,7 @@ void Storage::keepMeasurement(Measurement measurement)
     _measurementsStr += newMeasurementStr;
 }
 
-/*
-Don't forget to find the time taken by this function to return
-*/
-void Storage::saveMeasurements()
+bool Storage::saveMeasurements()
 {
     unsigned long start = millis();
 
@@ -84,10 +95,14 @@ void Storage::saveMeasurements()
     if (!sessionFile)
     {
         Serial.println("[storage] failed to open session file");
-        return;
+        return false;
     }
 
-    sessionFile.print(_measurementsStr);
+    if (sessionFile.print(_measurementsStr) == 0)
+    {
+        Serial.println("[storage] failed to write to session file");
+        return false;
+    }
 
     sessionFile.close();
 
@@ -101,4 +116,6 @@ void Storage::saveMeasurements()
     Serial.print("[storage] measurements saved in ");
     Serial.print(stop - start);
     Serial.println(" ms");
+
+    return true;
 }

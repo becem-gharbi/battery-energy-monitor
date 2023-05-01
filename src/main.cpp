@@ -15,7 +15,7 @@
     CMD      -> GPIO16 / D0 ok
 
   LEDS
-    ERROR    -> GPIO2 / D4 / builtin led
+    ERROR_LED_PIN    -> GPIO2 / D4 / builtin led / PULLED UP
 */
 
 #include <Arduino.h>
@@ -29,6 +29,7 @@
 #define RTC_CE_PIN 0
 #define SD_CS_PIN 15
 #define ADC_MUX_CMD_PIN 16
+#define ERROR_LED_PIN 2
 
 #define SAMPLE_RATE 1
 
@@ -40,6 +41,7 @@ Ticker savingTicker;
 
 bool sampleTrigger = true;
 bool savingTrigger = true;
+bool errorFound = false;
 
 void setTime(uint16_t *date, uint16_t *time)
 {
@@ -52,20 +54,26 @@ void setup()
 {
   Serial.begin(115200);
 
-  pinMode(BUILTIN_LED, OUTPUT);
+  pinMode(ERROR_LED_PIN, OUTPUT);
+  digitalWrite(ERROR_LED_PIN, HIGH);
 
   while (!Serial)
   {
     continue;
   }
 
-  rtc.begin();
+  errorFound = errorFound || !rtc.begin();
 
-  storage.begin(setTime);
+  errorFound = errorFound || !storage.begin(setTime);
 
   String timestamp = rtc.getTimeStr();
 
-  storage.createSession(timestamp);
+  errorFound = errorFound || !storage.createSession(timestamp);
+
+  if (errorFound)
+  {
+    return;
+  }
 
   sampleTicker.attach(storage.settings.data.sampleRateMs / 1000.0, []
                       { sampleTrigger = true; });
@@ -78,29 +86,30 @@ void setup()
 
 void loop()
 {
-  digitalWrite(BUILTIN_LED, LOW);
-  delay(500);
-  digitalWrite(BUILTIN_LED, HIGH);
-  delay(500);
+  if (errorFound)
+  {
+    digitalWrite(ERROR_LED_PIN, LOW);
+    return;
+  }
 
-  // if (sampleTrigger)
-  // {
-  //   sampleTrigger = false;
+  if (sampleTrigger)
+  {
+    sampleTrigger = false;
 
-  //   Measurement measurement;
-  //   measurement.current = adcMux.values[0] * storage.settings.data.currentFactor;
-  //   measurement.voltage = adcMux.values[1] * storage.settings.data.voltageFactor;
-  //   measurement.timestamp = adcMux.timestamp;
+    Measurement measurement;
+    measurement.current = adcMux.values[0] * storage.settings.data.currentFactor;
+    measurement.voltage = adcMux.values[1] * storage.settings.data.voltageFactor;
+    measurement.timestamp = adcMux.timestamp;
 
-  //   storage.keepMeasurement(measurement);
-  // }
+    storage.keepMeasurement(measurement);
+  }
 
-  // if (savingTrigger)
-  // {
-  //   savingTrigger = false;
+  if (savingTrigger)
+  {
+    savingTrigger = false;
 
-  //   storage.saveMeasurements();
-  // }
+    errorFound = !storage.saveMeasurements();
+  }
 
-  // adcMux.update();
+  adcMux.update();
 }

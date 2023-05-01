@@ -6,7 +6,7 @@ Rtc::Rtc(int8_t ioPin, int8_t sclkPin, int8_t cePin) : _wire(ioPin, sclkPin, ceP
 {
 }
 
-void Rtc::begin()
+bool Rtc::begin()
 {
     _ds1302.Begin();
 
@@ -34,7 +34,7 @@ void Rtc::begin()
         _ds1302.SetIsRunning(true);
     }
 
-    RtcDateTime now = _ds1302.GetDateTime();
+    RtcDateTime now = getTime();
 
     if (now < compiled)
     {
@@ -49,36 +49,27 @@ void Rtc::begin()
     {
         Serial.println("[rtc] is the same as compile time! (not expected but all is fine)");
     }
+
+    return now.IsValid();
 }
 
 String Rtc::getTimeStr()
 {
-    RtcDateTime now = _ds1302.GetDateTime();
+    RtcDateTime now = getTime();
 
-    if (!now.IsValid())
-    {
-        // Common Causes:
-        //    1) the battery on the device is low or even missing and the power line was disconnected
-        Serial.println("[rtc] lost confidence in the DateTime!");
-        return "error";
-    }
-    else
-    {
+    char timestamp[20];
 
-        char timestamp[20];
+    snprintf_P(timestamp,
+               countof(timestamp),
+               PSTR("%04u-%02u-%02u_%02u-%02u-%02u"), // Format YYYY-MM-DD_HH-MM-SS
+               now.Year(),
+               now.Month(),
+               now.Day(),
+               now.Hour(),
+               now.Minute(),
+               now.Second());
 
-        snprintf_P(timestamp,
-                   countof(timestamp),
-                   PSTR("%04u-%02u-%02u_%02u-%02u-%02u"), // Format YYYY-MM-DD_HH-MM-SS
-                   now.Year(),
-                   now.Month(),
-                   now.Day(),
-                   now.Hour(),
-                   now.Minute(),
-                   now.Second());
-
-        return timestamp;
-    }
+    return timestamp;
 }
 
 RtcDateTime Rtc::getTime()
