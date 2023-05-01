@@ -19,6 +19,7 @@ private:
     void _control(u_int8_t);
     u_int8_t _ctrlDelayMs;
     u_int16_t _timeDiff;
+    int _read();
 };
 
 #endif

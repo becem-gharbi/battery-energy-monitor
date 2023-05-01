@@ -18,7 +18,7 @@ void AdcMux::begin(u_int8_t ctrlDelayMs)
      {
           _control(i);
 
-          values[0] = analogRead(ANALOG_PIN);
+          values[0] = _read();
      }
 }
 
@@ -45,6 +45,11 @@ void AdcMux::update()
      {
           _control(i);
 
-          values[i] = (values[i] + analogRead(ANALOG_PIN)) / 2;
+          values[i] = (values[i] + _read()) / 2;
      }
+}
+
+int AdcMux::_read()
+{
+     return analogRead(ANALOG_PIN);
 }
