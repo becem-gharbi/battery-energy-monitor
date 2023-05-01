@@ -77,11 +77,11 @@ void setup()
   mes3.voltage = 4;
   mes3.timestamp = 2;
 
-  Measurement measurements[3] = {mes1, mes2, mes3};
+  storage.keepMeasurement(mes1);
+  storage.keepMeasurement(mes2);
+  storage.keepMeasurement(mes3);
 
-  u_int8_t length = sizeof(measurements) / sizeof(measurements[0]);
-
-  storage.saveMeasurements(measurements, length);
+  storage.saveMeasurements();
 
   ticker.attach(storage.settings.data.sampleRateMs / 1000.0, []
                 { timeElapsed = true; });

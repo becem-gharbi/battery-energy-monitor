@@ -11,7 +11,6 @@
 #define ADC_MUX_CTRL_DELAY_MS 5
 #define SAMPLE_RATE_MS 500
 #define SETTINGS_DOC_SIZE 500
-#define METADATA_DOC_SIZE 250
 
 class Storage
 {
@@ -20,12 +19,14 @@ public:
     void begin(void (*cb)(uint16_t *, uint16_t *));
     Settings settings;
     void createSession(String timestamp);
-    void saveMeasurements(Measurement measurement[], u_int8_t length);
+    void keepMeasurement(Measurement measurement);
+    void saveMeasurements();
 
 private:
     u_int8_t _csPin;
     File _sessionFile;
     void _loadSettings();
+    String _measurementsStr;
 };
 
 #endif
