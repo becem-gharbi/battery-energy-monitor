@@ -35,8 +35,8 @@ Storage storage(SD_CS_PIN);
 Ticker sampleTicker;
 Ticker savingTicker;
 
-bool sampleTrigger = false;
-bool savingTrigger = false;
+bool sampleTrigger = true;
+bool savingTrigger = true;
 
 void setTime(uint16_t *date, uint16_t *time)
 {
@@ -58,8 +58,6 @@ void setup()
 
   storage.begin(setTime);
 
-  adcMux.begin(storage.settings.data.adcMuxCtrlDelayMs);
-
   String timestamp = rtc.getTimeStr();
 
   storage.createSession(timestamp);
@@ -69,20 +67,20 @@ void setup()
 
   savingTicker.attach(storage.settings.data.savingRateMs / 1000.0, []
                       { savingTrigger = true; });
+
+  adcMux.begin(storage.settings.data.adcMuxCtrlDelayMs);
 }
 
 void loop()
 {
-  adcMux.update();
-
   if (sampleTrigger)
   {
     sampleTrigger = false;
 
-     Measurement measurement;
+    Measurement measurement;
     measurement.current = adcMux.values[0];
     measurement.voltage = adcMux.values[1];
-    measurement.timestamp = millis();
+    measurement.timestamp = adcMux.timestamp;
 
     storage.keepMeasurement(measurement);
   }
@@ -93,4 +91,6 @@ void loop()
 
     storage.saveMeasurements();
   }
+
+  adcMux.update();
 }

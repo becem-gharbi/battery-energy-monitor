@@ -11,6 +11,9 @@ void AdcMux::begin(u_int8_t ctrlDelayMs)
 
      pinMode(_cmdPin, OUTPUT);
 
+     _timeDiff = millis();
+     timestamp = 0;
+
      for (u_int8_t i = 0; i < NBR_OF_CHANNELS; i++)
      {
           _control(i);
@@ -36,6 +39,8 @@ void AdcMux::_control(u_int8_t cmd)
 
 void AdcMux::update()
 {
+     timestamp = millis() - _timeDiff;
+
      for (u_int8_t i = 0; i < NBR_OF_CHANNELS; i++)
      {
           _control(i);
