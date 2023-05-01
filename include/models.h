@@ -7,6 +7,7 @@ typedef struct SettingsData
 {
     u_int16_t sampleRateMs;
     u_int8_t adcMuxCtrlDelayMs;
+    u_int16_t savingRateMs;
 } SettingsData;
 
 typedef struct Metadata

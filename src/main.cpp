@@ -32,9 +32,11 @@
 Rtc rtc(RTC_IO_PIN, RTC_SCLK_PIN, RTC_CE_PIN);
 AdcMux adcMux(ADC_MUX_CMD_PIN);
 Storage storage(SD_CS_PIN);
-Ticker ticker;
+Ticker sampleTicker;
+Ticker savingTicker;
 
-bool timeElapsed = false;
+bool sampleTrigger = false;
+bool savingTrigger = false;
 
 void setTime(uint16_t *date, uint16_t *time)
 {
@@ -45,7 +47,7 @@ void setTime(uint16_t *date, uint16_t *time)
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   while (!Serial)
   {
@@ -62,37 +64,33 @@ void setup()
 
   storage.createSession(timestamp);
 
-  Measurement mes1;
-  mes1.current = 1;
-  mes1.voltage = 2;
-  mes1.timestamp = 0;
+  sampleTicker.attach(storage.settings.data.sampleRateMs / 1000.0, []
+                      { sampleTrigger = true; });
 
-  Measurement mes2;
-  mes2.current = 5;
-  mes2.voltage = 7;
-  mes2.timestamp = 1;
-
-  Measurement mes3;
-  mes3.current = 8;
-  mes3.voltage = 4;
-  mes3.timestamp = 2;
-
-  storage.keepMeasurement(mes1);
-  storage.keepMeasurement(mes2);
-  storage.keepMeasurement(mes3);
-
-  storage.saveMeasurements();
-
-  ticker.attach(storage.settings.data.sampleRateMs / 1000.0, []
-                { timeElapsed = true; });
+  savingTicker.attach(storage.settings.data.savingRateMs / 1000.0, []
+                      { savingTrigger = true; });
 }
 
 void loop()
 {
   adcMux.update();
 
-  if (timeElapsed)
+  if (sampleTrigger)
   {
-    timeElapsed = false;
+    sampleTrigger = false;
+
+     Measurement measurement;
+    measurement.current = adcMux.values[0];
+    measurement.voltage = adcMux.values[1];
+    measurement.timestamp = millis();
+
+    storage.keepMeasurement(measurement);
+  }
+
+  if (savingTrigger)
+  {
+    savingTrigger = false;
+
+    storage.saveMeasurements();
   }
 }

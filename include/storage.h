@@ -9,7 +9,8 @@
 #define SETTINGS_FILE_PATH "battery_energy_monitor/settings.json"
 #define SESSION_FILE_PATH(timestamp) ("battery_energy_monitor/sessions/" + timestamp + ".csv")
 #define ADC_MUX_CTRL_DELAY_MS 5
-#define SAMPLE_RATE_MS 500
+#define SAMPLE_RATE_MS 1000
+#define SAVING_RATE_MS 1500
 #define SETTINGS_DOC_SIZE 500
 
 class Storage

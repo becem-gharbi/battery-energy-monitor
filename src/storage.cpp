@@ -36,6 +36,7 @@ void Storage::_loadSettings()
 
     settings.data.adcMuxCtrlDelayMs = settingsDoc["data"]["adcMuxCtrlDelayMs"] | ADC_MUX_CTRL_DELAY_MS;
     settings.data.sampleRateMs = settingsDoc["data"]["sampleRateMs"] | SAMPLE_RATE_MS;
+    settings.data.savingRateMs = settingsDoc["data"]["savingRateMs"] | SAVING_RATE_MS;
 
     Serial.println("[storage] settings loaded");
     settingsFile.close();
@@ -49,7 +50,7 @@ void Storage::createSession(String timestamp)
 
     if (!sessionFile)
     {
-        Serial.println("Failed to create session file");
+        Serial.println("[storage] failed to create session file");
         return;
     }
 
@@ -63,16 +64,34 @@ void Storage::createSession(String timestamp)
 void Storage::keepMeasurement(Measurement measurement)
 {
     String newMeasurementStr = String(measurement.timestamp) + "," + String(measurement.current) + "," + String(measurement.voltage) + "\n";
+
     _measurementsStr += newMeasurementStr;
 }
 
+/*
+Don't forget to find the time taken by this function to return
+*/
 void Storage::saveMeasurements()
 {
+    unsigned long start = millis();
+
     File sessionFile = SD.open(_sessionFilename, FILE_WRITE);
+
+    if (!sessionFile)
+    {
+        Serial.println("[storage] failed to open session file");
+        return;
+    }
 
     sessionFile.print(_measurementsStr);
 
     sessionFile.close();
 
     _measurementsStr = "";
+
+    unsigned long stop = millis();
+
+    Serial.print("[storage] measurements saved in ");
+    Serial.print(stop - start);
+    Serial.println(" ms");
 }
