@@ -7,11 +7,11 @@
 #include <models.h>
 
 #define SETTINGS_FILE_PATH "battery_energy_monitor/settings.json"
-#define SESSION_FILE_PATH(timestamp) ("battery_energy_monitor/sessions/" + timestamp + ".json")
+#define SESSION_FILE_PATH(timestamp) ("battery_energy_monitor/sessions/" + timestamp + ".csv")
 #define ADC_MUX_CTRL_DELAY_MS 5
 #define SAMPLE_RATE_MS 500
 #define SETTINGS_DOC_SIZE 500
-#define METADATA_DOC_SIZE 128
+#define METADATA_DOC_SIZE 250
 
 class Storage
 {
@@ -20,6 +20,7 @@ public:
     void begin(void (*cb)(uint16_t *, uint16_t *));
     Settings settings;
     void createSession(String timestamp);
+    void saveMeasurement(Measurement measurement);
 
 private:
     u_int8_t _csPin;

@@ -62,6 +62,13 @@ void setup()
 
   storage.createSession(timestamp);
 
+  Measurement mes;
+  mes.current = 10;
+  mes.voltage = 70;
+  mes.timestamp = 0;
+
+  storage.saveMeasurement(mes);
+
   ticker.attach(storage.settings.data.sampleRateMs / 1000.0, []
                 { timeElapsed = true; });
 }

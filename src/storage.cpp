@@ -53,18 +53,20 @@ void Storage::createSession(String timestamp)
         return;
     }
 
-    StaticJsonDocument<METADATA_DOC_SIZE> metadataDoc;
-    JsonObject metadata = metadataDoc.createNestedObject("metadata");
+    String headers = "Timestamp,Current,Voltage";
 
-    metadata["createdAt"] = timestamp;
-    metadata["updatedAt"] = timestamp;
+    _sessionFile.println(headers);
 
-    if (serializeJson(metadataDoc, _sessionFile) == 0)
-    {
-        Serial.println("Failed to write to session file");
-    }
-
-    _sessionFile.close();
+     _sessionFile.close();
 
     _sessionFile = SD.open(filename, FILE_WRITE);
+}
+
+void Storage::saveMeasurement(Measurement measurement)
+{
+    String measurementStr = String(measurement.timestamp) + "," + String(measurement.current) + "," + String(measurement.voltage);
+
+    _sessionFile.println(measurementStr);
+
+    _sessionFile.flush();
 }
