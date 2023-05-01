@@ -24,7 +24,7 @@ public:
 
 private:
     u_int8_t _csPin;
-    File _sessionFile;
+    String _sessionFilename;
     void _loadSettings();
     String _measurementsStr;
 };

@@ -43,11 +43,11 @@ void Storage::_loadSettings()
 
 void Storage::createSession(String timestamp)
 {
-    String filename = SESSION_FILE_PATH(timestamp);
+    _sessionFilename = SESSION_FILE_PATH(timestamp);
 
-    _sessionFile = SD.open(filename, FILE_WRITE);
+    File sessionFile = SD.open(_sessionFilename, FILE_WRITE);
 
-    if (!_sessionFile)
+    if (!sessionFile)
     {
         Serial.println("Failed to create session file");
         return;
@@ -55,11 +55,9 @@ void Storage::createSession(String timestamp)
 
     String headers = "Timestamp,Current,Voltage";
 
-    _sessionFile.println(headers);
+    sessionFile.println(headers);
 
-    _sessionFile.close();
-
-    _sessionFile = SD.open(filename, FILE_WRITE);
+    sessionFile.close();
 }
 
 void Storage::keepMeasurement(Measurement measurement)
@@ -70,9 +68,11 @@ void Storage::keepMeasurement(Measurement measurement)
 
 void Storage::saveMeasurements()
 {
-    _sessionFile.print(_measurementsStr);
+    File sessionFile = SD.open(_sessionFilename, FILE_WRITE);
 
-    _sessionFile.flush();
+    sessionFile.print(_measurementsStr);
+
+    sessionFile.close();
 
     _measurementsStr = "";
 }
