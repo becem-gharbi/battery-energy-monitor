@@ -8,6 +8,8 @@ typedef struct SettingsData
     u_int16_t sampleRateMs;
     u_int8_t adcMuxCtrlDelayMs;
     u_int16_t savingRateMs;
+    float currentFactor;
+    float voltageFactor;
 } SettingsData;
 
 typedef struct Metadata

@@ -78,8 +78,8 @@ void loop()
     sampleTrigger = false;
 
     Measurement measurement;
-    measurement.current = adcMux.values[0];
-    measurement.voltage = adcMux.values[1];
+    measurement.current = adcMux.values[0] * storage.settings.data.currentFactor;
+    measurement.voltage = adcMux.values[1] * storage.settings.data.voltageFactor;
     measurement.timestamp = adcMux.timestamp;
 
     storage.keepMeasurement(measurement);

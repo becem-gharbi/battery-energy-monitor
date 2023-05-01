@@ -34,9 +34,13 @@ void Storage::_loadSettings()
         Serial.println("[storage] file <settings.json> not found, using default settings");
     }
 
-    settings.data.adcMuxCtrlDelayMs = settingsDoc["data"]["adcMuxCtrlDelayMs"] | ADC_MUX_CTRL_DELAY_MS;
-    settings.data.sampleRateMs = settingsDoc["data"]["sampleRateMs"] | SAMPLE_RATE_MS;
-    settings.data.savingRateMs = settingsDoc["data"]["savingRateMs"] | SAVING_RATE_MS;
+    JsonObject data = settingsDoc["data"];
+
+    settings.data.adcMuxCtrlDelayMs = data["adcMuxCtrlDelayMs"] | ADC_MUX_CTRL_DELAY_MS;
+    settings.data.sampleRateMs = data["sampleRateMs"] | SAMPLE_RATE_MS;
+    settings.data.savingRateMs = data["savingRateMs"] | SAVING_RATE_MS;
+    settings.data.currentFactor = data["currentFactor"];
+    settings.data.voltageFactor = data["voltageFactor"];
 
     Serial.println("[storage] settings loaded");
     settingsFile.close();

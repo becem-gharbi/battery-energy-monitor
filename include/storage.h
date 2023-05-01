@@ -11,7 +11,7 @@
 #define ADC_MUX_CTRL_DELAY_MS 5
 #define SAMPLE_RATE_MS 1000
 #define SAVING_RATE_MS 1500
-#define SETTINGS_DOC_SIZE 500
+#define SETTINGS_DOC_SIZE 384
 
 class Storage
 {
