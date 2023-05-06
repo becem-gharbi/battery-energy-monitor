@@ -45,7 +45,7 @@ void AdcMux::update()
      {
           _control(i);
 
-          values[i] = (values[i] + _read()) / 2;
+          values[i] = _read();
      }
 }
 

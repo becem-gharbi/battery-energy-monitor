@@ -92,24 +92,32 @@ void loop()
     return;
   }
 
-  if (sampleTrigger)
-  {
-    sampleTrigger = false;
+  // if (sampleTrigger)
+  // {
+  //   sampleTrigger = false;
 
-    Measurement measurement;
-    measurement.current = adcMux.values[0] * storage.settings.data.currentFactor;
-    measurement.voltage = adcMux.values[1] * storage.settings.data.voltageFactor;
-    measurement.timestamp = adcMux.timestamp;
+  //   Measurement measurement;
+  //   measurement.current = adcMux.values[0] * storage.settings.data.currentFactor;
+  //   measurement.voltage = adcMux.values[1] * storage.settings.data.voltageFactor;
+  //   measurement.timestamp = adcMux.timestamp;
 
-    storage.keepMeasurement(measurement);
-  }
+  //   storage.keepMeasurement(measurement);
+  // }
 
-  if (savingTrigger)
-  {
-    savingTrigger = false;
+  // if (savingTrigger)
+  // {
+  //   savingTrigger = false;
 
-    errorFound = !storage.saveMeasurements();
-  }
+  //   errorFound = !storage.saveMeasurements();
+  // }
 
   adcMux.update();
+
+  Serial.print("CH0 | ");
+  Serial.println(analogRead(A0));
+
+  // Serial.print("CH1 | ");
+  // Serial.println(adcMux.values[1]);
+
+ // delay(1000);
 }
