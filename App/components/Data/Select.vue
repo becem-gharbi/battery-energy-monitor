@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-sm flex flex-col justify-center items-center gap-4 mx-auto mt-20">
+    <div class="max-w-sm flex flex-col justify-center items-center gap-4">
         <img src="~/assets/images/select-data.svg">
 
         <input hidden ref="inputRef" type="file" webkitdirectory multiple />
@@ -41,6 +41,7 @@ function handleSettings(file?: File) {
                 currentOffset: data["currentOffset"],
                 voltageGain: data["voltageGain"],
                 voltageOffset: data["voltageOffset"]
+
             }
         }
     };

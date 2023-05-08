@@ -7,13 +7,9 @@
       </n-notification-provider>
     </ClientOnly>
 
-    <NuxtLayout>
-      <NuxtLoadingIndicator :color="themeConfig.light?.common?.primaryColor" />
-
-      <n-message-provider>
-        <NuxtPage />
-      </n-message-provider>
-    </NuxtLayout>
+    <n-message-provider>
+      <NuxtPage />
+    </n-message-provider>
 
   </NaiveConfig>
 </template>
