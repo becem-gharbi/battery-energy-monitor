@@ -4,7 +4,7 @@ declare global {
   type HighchartsOptions = Options;
 
   interface Settings {
-    debug: bool;
+    debug: 0 | 1;
     sampleRate: number;
     savingRate: number;
     currentGain: number;
@@ -17,6 +17,7 @@ declare global {
     current: number[][];
     voltage: number[][];
     power: number[][];
+    energy: number;
   }
 
   type Session = File;

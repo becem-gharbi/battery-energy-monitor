@@ -1,13 +1,19 @@
 <template>
-    <div>
+    <div class="m-3">
         <DataSelect v-if="!settings" />
 
         <div v-else>
-            <ul>
-                <n-select v-model:value="currentSessionSelect" :options="sessionsSelect" />
-            </ul>
+            <n-h2>Settings</n-h2>
+
+            <FormSettings :settings="settings" />
+
+            <n-h2>Sessions</n-h2>
+
+            <n-select v-model:value="currentSessionSelect" :options="sessionsSelect" />
 
             <ChartMeasurements :measurements="measurements" />
+
+            <MeterEnergy :measurements="measurements"></MeterEnergy>
         </div>
     </div>
 </template>

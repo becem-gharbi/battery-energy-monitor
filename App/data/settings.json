@@ -1,5 +1,5 @@
 {
-  "debug": false,
+  "debug": 0,
   "sampleRate": 500,
   "savingRate": 5000,
   "currentGain": 0.06585,
