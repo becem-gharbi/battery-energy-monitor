@@ -1,5 +1,5 @@
 <template>
-    <ChartBase :options="options" :height="400" />
+    <ChartBase :options="options" />
 </template>
 
 <script setup lang="ts">
@@ -33,6 +33,11 @@ const options = computed<HighchartsOptions>(() => ({
             year: '%Y'
         },
 
+    },
+    yAxis: {
+        title: {
+            text: ""
+        }
     },
     series: [{
         name: "Current",
