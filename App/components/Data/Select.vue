@@ -14,10 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import Papa from "papaparse";
-
 const inputRef = ref<HTMLInputElement>()
 
+const sessions = useState<Session[]>("sessions")
+const settings = useState<Settings>("settings")
 
 function handleSettings(file?: File) {
 
@@ -33,7 +33,7 @@ function handleSettings(file?: File) {
         if (reader.result) {
             const data = JSON.parse(reader.result.toString());
 
-            const settings: Settings = {
+            settings.value = {
                 debug: data["debug"],
                 sampleRate: data["sampleRate"],
                 savingRate: data["savingRate"],
@@ -42,30 +42,12 @@ function handleSettings(file?: File) {
                 voltageGain: data["voltageGain"],
                 voltageOffset: data["voltageOffset"]
             }
-
-            useState("settings", () => settings)
         }
     };
 }
 
 function handleSessions(files?: File[]) {
-    let sessions: Session[] = []
-
-    if (files) {
-        for (let file of files) {
-            let session: Session = {
-                timestamp: new Date(file.lastModified),
-                measurements: []
-            }
-
-            Papa.parse(file, {
-                complete: function (results) {
-                    console.log(results);
-                },
-            });
-
-        }
-    }
+    sessions.value = files?.reverse() || []
 }
 
 onMounted(() => {

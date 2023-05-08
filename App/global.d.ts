@@ -13,17 +13,13 @@ declare global {
     voltageOffset: number;
   }
 
-  interface Measurement {
-    current: number;
-    voltage: number;
-    power: number;
-    timestamp: Date;
+  interface Measurements {
+    current: number[][];
+    voltage: number[][];
+    power: number[][];
   }
 
-  interface Session {
-    timestamp: Date;
-    measurements: Measurement[];
-  }
+  type Session = File;
 }
 
 export {};

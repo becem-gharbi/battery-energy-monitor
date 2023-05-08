@@ -30,11 +30,11 @@ void AdcMux::_control(u_int8_t cmd)
           digitalWrite(_cmdPin, LOW);
           break;
      case 1:
-          digitalWrite(_cmdPin, HIGH);
+         digitalWrite(_cmdPin, HIGH);
           break;
      }
 
-     delay(_ctrlDelayMs);
+     delay(20);
 }
 
 void AdcMux::update()

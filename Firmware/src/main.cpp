@@ -52,7 +52,7 @@ void setTime(uint16_t *date, uint16_t *time)
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
 
   pinMode(ERROR_LED_PIN, OUTPUT);
   digitalWrite(ERROR_LED_PIN, HIGH);
@@ -68,7 +68,9 @@ void setup()
 
   String timestamp = rtc.getTimeStr();
 
-  errorFound = errorFound || !storage.createSession(timestamp);
+  Serial.println(timestamp);
+
+  //   errorFound = errorFound || !storage.createSession(timestamp);
 
   if (errorFound)
   {
@@ -113,11 +115,13 @@ void loop()
 
   adcMux.update();
 
-  Serial.print("CH0 | ");
-  Serial.println(analogRead(A0));
+  Serial.print("CH0 = "); // Du voltage
+  Serial.print(adcMux.values[0]);
 
-  // Serial.print("CH1 | ");
-  // Serial.println(adcMux.values[1]);
+  Serial.print("| CH1 = "); // Di current
+  Serial.println(adcMux.values[1]);
 
- // delay(1000);
+  // int adc = analogRead(A0);
+  // Serial.println(adc);
+  // delay(500);
 }
