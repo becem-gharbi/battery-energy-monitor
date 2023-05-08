@@ -3,32 +3,27 @@
         <DataSelect v-if="!settings" class="w-full" />
 
         <div v-else class="w-full">
-            <n-card size="small">
-                <n-page-header title="Sessions">
-                    <template #avatar>
-                        <NaiveIcon name="ph:lightning" />
-                    </template>
+            <n-card size="small" title="Sessions" segmented hoverable>
 
-                    <template #extra>
-                        <div class="flex gap-2 flex-wrap">
-                            <n-select v-model:value="currentSessionSelect" :options="sessionsSelect" class="w-min" />
+                <template #header-extra>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <n-select v-model:value="currentSessionSelect" :options="sessionsSelect" class="w-44" />
 
-                            <n-button @click="settingsActive = true">
-                                <template #icon>
-                                    <NaiveIcon name="ph:gear" />
-                                </template>
-                            </n-button>
+                        <n-button @click="settingsActive = true" secondary>
+                            <template #icon>
+                                <NaiveIcon name="ph:gear" />
+                            </template>
+                        </n-button>
 
-                            <ColorModeToggler />
-                        </div>
-                    </template>
+                        <ColorModeToggler />
+                    </div>
+                </template>
 
-                    <MeterEnergy :measurements="measurements"></MeterEnergy>
 
-                </n-page-header>
+                <StatsEnergy :measurements="measurements"></StatsEnergy>
             </n-card>
 
-            <n-card size="small" class="mt-4">
+            <n-card size="small" class="mt-4 p-0" hoverable>
                 <ChartMeasurements :measurements="measurements" class="m-3" />
             </n-card>
 

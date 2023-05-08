@@ -1,5 +1,5 @@
 <template>
-    <ChartBase :options="options" />
+    <ChartBase :options="options" :height="400" />
 </template>
 
 <script setup lang="ts">
@@ -7,13 +7,18 @@
 const props = defineProps<{ measurements?: Measurements }>()
 
 const options = computed<HighchartsOptions>(() => ({
+    plotOptions: {
+        series: {
+            lineWidth: 3
+        }
+    },
     chart: {
         zooming: {
             type: "x"
-        }
+        },
     },
     title: {
-        text: "Measurements"
+        text: ""
     },
     xAxis: {
         type: 'datetime',
@@ -27,6 +32,7 @@ const options = computed<HighchartsOptions>(() => ({
             month: '%b \'%y',
             year: '%Y'
         },
+
     },
     series: [{
         name: "Current",
@@ -40,6 +46,6 @@ const options = computed<HighchartsOptions>(() => ({
         name: "Power",
         type: 'line',
         data: props.measurements?.power
-    }]
+    }],
 }))
 </script>

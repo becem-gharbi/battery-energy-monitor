@@ -21,9 +21,9 @@ import { theme } from "#tailwind-config";
 const themeConfig = ref<ThemeConfig>({
   shared: {
     common: {
-      fontFamily: theme.fontFamily.sans,
+      fontFamily: 'Source Sans Pro',
       lineHeight: theme.lineHeight.normal,
-      borderRadius: "4px"
+      borderRadius: "6px"
     },
   },
 

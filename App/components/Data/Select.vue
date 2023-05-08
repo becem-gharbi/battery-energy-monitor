@@ -1,6 +1,10 @@
 <template>
     <div class="max-w-sm flex flex-col justify-center items-center gap-4">
-        <img src="~/assets/images/select-data.svg">
+        <NaiveIcon name="ph:activity" :size="80" />
+
+        <n-h2 class="m-2">Battery Energy Monitor</n-h2>
+
+        <n-text :depth="3" class="text-center">Please select data folder that contains recorded sessions</n-text>
 
         <input hidden ref="inputRef" type="file" webkitdirectory multiple />
 
@@ -8,7 +12,7 @@
             <template #icon>
                 <NaiveIcon name="ph:folder-duotone" :size="23"></NaiveIcon>
             </template>
-            Select data folder
+            Select Folder
         </n-button>
     </div>
 </template>

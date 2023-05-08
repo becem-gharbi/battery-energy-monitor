@@ -1,5 +1,5 @@
 <template>
-    <n-button @click="toggleColorMode" tag="span" :focusable="false">
+    <n-button @click="toggleColorMode" tag="span" :focusable="false" secondary>
         <NaiveIcon v-if="colorModePreference === 'dark'" name="ph:moon"></NaiveIcon>
         <NaiveIcon v-else-if="colorModePreference === 'light'" name="ph:sun"></NaiveIcon>
         <NaiveIcon v-else-if="colorModePreference === 'system'" name="ph:monitor"></NaiveIcon>

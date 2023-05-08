@@ -46,13 +46,11 @@ const highchartsOptions = computed<HighchartsOptions>(() => defu(
             title: {
                 style: {
                     color: naiveTheme.value?.common?.textColor2,
-                    fontSize: naiveTheme.value?.common?.fontSizeSmall,
                 }
             },
             labels: {
                 style: {
                     color: naiveTheme.value?.common?.textColor2,
-                    fontSize: naiveTheme.value?.common?.fontSizeMini,
                 }
             },
         },
@@ -62,13 +60,11 @@ const highchartsOptions = computed<HighchartsOptions>(() => defu(
             title: {
                 style: {
                     color: naiveTheme.value?.common?.textColor2,
-                    fontSize: naiveTheme.value?.common?.fontSizeSmall,
                 }
             },
             labels: {
                 style: {
                     color: naiveTheme.value?.common?.textColor2,
-                    fontSize: naiveTheme.value?.common?.fontSizeMini,
                 }
             },
         },
@@ -80,9 +76,7 @@ const highchartsOptions = computed<HighchartsOptions>(() => defu(
         },
 
         credits: {
-            style: {
-                fontSize: naiveTheme.value?.common?.fontSizeSmall,
-            }
+            enabled: false,
         }
     } as HighchartsOptions
 ))
