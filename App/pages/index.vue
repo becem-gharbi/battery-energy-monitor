@@ -1,19 +1,15 @@
 <template>
     <div>
-        <naive-navbar>
-            <template #start>
-                <NuxtLink to="/" class="flex items-center gap-3">
-                    <NaiveIcon name="ph:activity" :size="25"></NaiveIcon>
-                    <n-text strong>Battery Energy Monitor</n-text>
-                </NuxtLink>
-            </template>
+        <ChartCurrent />
+        <!-- <DataSelect v-if="!dataFiles" />
 
-            <template #end>
-                <NaiveColorModeSwitch />
-            </template>
-        </naive-navbar>
+        <ul v-else>
+            <li v-for="file of dataFiles"> {{ file.webkitRelativePath }}</li>
+        </ul> -->
     </div>
 </template>
 
 <script setup lang="ts">
+const dataFiles = useState<File[]>("data_files")
+
 </script>

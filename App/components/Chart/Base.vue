@@ -9,7 +9,6 @@
 <script setup lang="ts">
 import { Chart } from 'highcharts-vue'
 import { defu } from 'defu'
-import type { Options as HighchartsOptions } from "highcharts";
 
 const props = defineProps<{
     options: HighchartsOptions,
@@ -33,7 +32,7 @@ const highchartsOptions = computed<HighchartsOptions>(() => defu(
         },
 
         accessibility: {
-            enabled: true
+            enabled: false
         },
 
         title: {
@@ -85,7 +84,7 @@ const highchartsOptions = computed<HighchartsOptions>(() => defu(
                 fontSize: naiveTheme.value?.common?.fontSizeSmall,
             }
         }
-    }))
+    } as HighchartsOptions
+))
 
 </script>
-

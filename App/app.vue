@@ -27,7 +27,7 @@ const themeConfig = ref<ThemeConfig>({
     common: {
       fontFamily: theme.fontFamily.sans,
       lineHeight: theme.lineHeight.normal,
-      borderRadius: "8px"
+      borderRadius: "4px"
     },
   },
 

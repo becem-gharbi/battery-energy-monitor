@@ -1,0 +1,9 @@
+{
+  "debug": false,
+  "sampleRate": 500,
+  "savingRate": 5000,
+  "currentGain": 0.06585,
+  "currentOffset": -38.21,
+  "voltageGain": 0.0786,
+  "voltageOffset": -0.882
+}
