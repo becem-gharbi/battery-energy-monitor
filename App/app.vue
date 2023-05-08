@@ -1,16 +1,6 @@
 <template>
   <NaiveConfig :theme-config="themeConfig">
-
-    <ClientOnly>
-      <n-notification-provider placement="bottom-right">
-        <NotificationNetwork />
-      </n-notification-provider>
-    </ClientOnly>
-
-    <n-message-provider>
-      <NuxtPage />
-    </n-message-provider>
-
+    <NuxtPage />
   </NaiveConfig>
 </template>
 

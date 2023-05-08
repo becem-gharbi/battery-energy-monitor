@@ -1,6 +1,6 @@
 <template>
     <div class="page-center p-4">
-        <DataSelect v-if="!settings" class="w-full" />
+        <DataSelect v-if="!settings" />
 
         <div v-else class="w-full">
             <n-card size="small" title="Sessions" segmented hoverable>
@@ -82,8 +82,6 @@ watch(currentSession, async () => {
     min-height: 100dvh;
     width: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
 }
 </style>
