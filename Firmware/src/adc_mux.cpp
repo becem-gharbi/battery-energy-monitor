@@ -1,28 +1,26 @@
 #include <adc_mux.h>
 
-AdcMux::AdcMux(u_int8_t cmdPin)
+AdcMux::AdcMux(byte cmdPin)
 {
      _cmdPin = cmdPin;
 }
 
-void AdcMux::begin(u_int8_t ctrlDelayMs)
+void AdcMux::begin()
 {
-     _ctrlDelayMs = ctrlDelayMs;
-
      pinMode(_cmdPin, OUTPUT);
 
      _timeDiff = millis();
-     timestamp = 0;
+     time = 0;
 
-     for (u_int8_t i = 0; i < NBR_OF_CHANNELS; i++)
+     for (byte i = 0; i < NBR_OF_CHANNELS; i++)
      {
           _control(i);
 
-          values[0] = _read();
+          values[i] = _read();
      }
 }
 
-void AdcMux::_control(u_int8_t cmd)
+void AdcMux::_control(byte cmd)
 {
      switch (cmd)
      {
@@ -30,7 +28,7 @@ void AdcMux::_control(u_int8_t cmd)
           digitalWrite(_cmdPin, LOW);
           break;
      case 1:
-         digitalWrite(_cmdPin, HIGH);
+          digitalWrite(_cmdPin, HIGH);
           break;
      }
 
@@ -39,9 +37,9 @@ void AdcMux::_control(u_int8_t cmd)
 
 void AdcMux::update()
 {
-     timestamp = millis() - _timeDiff;
+     time = millis() - _timeDiff;
 
-     for (u_int8_t i = 0; i < NBR_OF_CHANNELS; i++)
+     for (byte i = 0; i < NBR_OF_CHANNELS; i++)
      {
           _control(i);
 

@@ -2,7 +2,7 @@
 
 #define countof(a) (sizeof(a) / sizeof(a[0]))
 
-Rtc::Rtc(int8_t ioPin, int8_t sclkPin, int8_t cePin) : _wire(ioPin, sclkPin, cePin), _ds1302(_wire)
+Rtc::Rtc(byte ioPin, byte sclkPin, byte cePin) : _wire(ioPin, sclkPin, cePin), _ds1302(_wire)
 {
 }
 

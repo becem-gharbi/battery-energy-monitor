@@ -6,7 +6,7 @@
 class Rtc
 {
 public:
-    Rtc(int8_t ioPin, int8_t sclkPin, int8_t cePin);
+    Rtc(byte ioPin, byte sclkPin, byte cePin);
     bool begin();
     String getTimeStr();
     RtcDateTime getTime();

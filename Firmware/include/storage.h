@@ -16,7 +16,7 @@
 class Storage
 {
 public:
-    Storage(u_int8_t csPin);
+    Storage(byte csPin);
     bool begin(void (*cb)(uint16_t *, uint16_t *));
     Settings settings;
     bool createSession(String timestamp);
@@ -24,7 +24,7 @@ public:
     bool saveMeasurements();
 
 private:
-    u_int8_t _csPin;
+    byte _csPin;
     String _sessionFilename;
     bool _loadSettings();
     String _measurementsStr;

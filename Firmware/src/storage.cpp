@@ -1,6 +1,6 @@
 #include <storage.h>
 
-Storage::Storage(u_int8_t csPin)
+Storage::Storage(byte csPin)
 {
     _csPin = csPin;
 }
@@ -42,11 +42,13 @@ bool Storage::_loadSettings()
 
     JsonObject data = settingsDoc["data"];
 
-    settings.data.adcMuxCtrlDelayMs = data["adcMuxCtrlDelayMs"] | ADC_MUX_CTRL_DELAY_MS;
-    settings.data.sampleRateMs = data["sampleRateMs"] | SAMPLE_RATE_MS;
-    settings.data.savingRateMs = data["savingRateMs"] | SAVING_RATE_MS;
-    settings.data.currentFactor = data["currentFactor"];
-    settings.data.voltageFactor = data["voltageFactor"];
+    settings.debug = data["debug"];
+    settings.sampleRateMs = data["sampleRateMs"] | SAMPLE_RATE_MS;
+    settings.savingRateMs = data["savingRateMs"] | SAVING_RATE_MS;
+    settings.currentGain = data["currentGain"];
+    settings.currentOffset = data["currentOffset"];
+    settings.voltageGain = data["voltageGain"];
+    settings.voltageOffset = data["voltageOffset"];
 
     Serial.println("[storage] settings loaded");
     settingsFile.close();
@@ -81,7 +83,7 @@ bool Storage::createSession(String timestamp)
 
 void Storage::keepMeasurement(Measurement measurement)
 {
-    String newMeasurementStr = String(measurement.timestamp) + "," + String(measurement.current) + "," + String(measurement.voltage) + "\n";
+    String newMeasurementStr = String(measurement.time) + "," + String(measurement.current) + "," + String(measurement.voltage) + "\n";
 
     _measurementsStr += newMeasurementStr;
 }

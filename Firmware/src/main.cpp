@@ -1,4 +1,3 @@
-
 /*
   SD
     DI/MOSI -> GPIO13 / D7 ok
@@ -77,13 +76,13 @@ void setup()
     return;
   }
 
-  sampleTicker.attach(storage.settings.data.sampleRateMs / 1000.0, []
+  sampleTicker.attach(storage.settings.sampleRateMs / 1000.0, []
                       { sampleTrigger = true; });
 
-  savingTicker.attach(storage.settings.data.savingRateMs / 1000.0, []
+  savingTicker.attach(storage.settings.savingRateMs / 1000.0, []
                       { savingTrigger = true; });
 
-  adcMux.begin(storage.settings.data.adcMuxCtrlDelayMs);
+  adcMux.begin();
 }
 
 void loop()
@@ -94,34 +93,24 @@ void loop()
     return;
   }
 
-  // if (sampleTrigger)
-  // {
-  //   sampleTrigger = false;
+  if (sampleTrigger)
+  {
+    sampleTrigger = false;
 
-  //   Measurement measurement;
-  //   measurement.current = adcMux.values[0] * storage.settings.data.currentFactor;
-  //   measurement.voltage = adcMux.values[1] * storage.settings.data.voltageFactor;
-  //   measurement.timestamp = adcMux.timestamp;
+    Measurement measurement;
+    measurement.voltage = adcMux.values[0] * storage.settings.voltageGain + storage.settings.voltageOffset;
+    measurement.current = adcMux.values[1] * storage.settings.currentGain + storage.settings.currentOffset;
+    measurement.time = adcMux.time;
 
-  //   storage.keepMeasurement(measurement);
-  // }
+    storage.keepMeasurement(measurement);
+  }
 
-  // if (savingTrigger)
-  // {
-  //   savingTrigger = false;
+  if (savingTrigger)
+  {
+    savingTrigger = false;
 
-  //   errorFound = !storage.saveMeasurements();
-  // }
+    errorFound = !storage.saveMeasurements();
+  }
 
   adcMux.update();
-
-  Serial.print("CH0 = "); // Du voltage
-  Serial.print(adcMux.values[0]);
-
-  Serial.print("| CH1 = "); // Di current
-  Serial.println(adcMux.values[1]);
-
-  // int adc = analogRead(A0);
-  // Serial.println(adc);
-  // delay(500);
 }
