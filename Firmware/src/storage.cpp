@@ -36,19 +36,17 @@ bool Storage::_loadSettings()
 
     if (error)
     {
-        Serial.printf("[storage] file <settings.json> not found, using default settings \n");
+        Serial.printf("[storage] file <settings.json> not found \n");
         return false;
     }
 
-    JsonObject data = settingsDoc["data"];
-
-    settings.debug = data["debug"];
-    settings.sampleRateMs = data["sampleRateMs"] | SAMPLE_RATE_MS;
-    settings.savingRateMs = data["savingRateMs"] | SAVING_RATE_MS;
-    settings.currentGain = data["currentGain"];
-    settings.currentOffset = data["currentOffset"];
-    settings.voltageGain = data["voltageGain"];
-    settings.voltageOffset = data["voltageOffset"];
+    settings.debug = settingsDoc["debug"];
+    settings.sampleRateMs = settingsDoc["sampleRate"] | SAMPLE_RATE_MS;
+    settings.savingRateMs = settingsDoc["savingRate"] | SAVING_RATE_MS;
+    settings.currentGain = settingsDoc["currentGain"];
+    settings.currentOffset = settingsDoc["currentOffset"];
+    settings.voltageGain = settingsDoc["voltageGain"];
+    settings.voltageOffset = settingsDoc["voltageOffset"];
 
     Serial.printf("[storage] settings loaded \n");
     settingsFile.close();
@@ -68,7 +66,7 @@ bool Storage::createSession(String timestamp)
         return false;
     }
 
-    String headers = "Timestamp,Current,Voltage";
+    String headers = "Time,Current,Voltage";
 
     if (sessionFile.println(headers) == 0)
     {
@@ -83,7 +81,7 @@ bool Storage::createSession(String timestamp)
 
 void Storage::keepMeasurement(Measurement measurement)
 {
-    String newMeasurementStr = String(measurement.time) + "," + String(measurement.current) + "," + String(measurement.voltage) + "\n";
+    String newMeasurementStr = String(measurement.time) + "," + String(measurement.current) + "," + String(measurement.voltage) + "\r\n";
 
     _measurementsStr += newMeasurementStr;
 }

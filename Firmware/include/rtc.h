@@ -14,6 +14,7 @@ public:
 private:
     ThreeWire _wire;
     RtcDS1302<ThreeWire> _ds1302;
+    String _timeToStr(RtcDateTime time);
 };
 
 #endif

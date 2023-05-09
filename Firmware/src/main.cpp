@@ -60,6 +60,7 @@ void setup()
   {
     continue;
   }
+  Serial.printf("\n");
 
   errorFound = errorFound || !rtc.begin();
 
@@ -76,14 +77,16 @@ void setup()
 
   if (storage.settings.debug == 1)
   {
-    Serial.printf("Rtc time %s \n", timestamp.c_str());
-    Serial.printf("=============== Settings ===============");
+    Serial.printf("================= Time =================\n");
+    Serial.printf("%s \n", timestamp.c_str());
+    Serial.printf("=============== Settings ===============\n");
     Serial.printf("Sample Rate = %d \n", storage.settings.sampleRateMs);
     Serial.printf("Saving Rate = %d \n", storage.settings.savingRateMs);
     Serial.printf("Current Gain = %f \n", storage.settings.currentGain);
     Serial.printf("Current offset = %f \n", storage.settings.currentOffset);
     Serial.printf("Voltage Gain = %f \n", storage.settings.voltageGain);
     Serial.printf("Voltage offset = %f \n", storage.settings.voltageOffset);
+    Serial.printf("========================================\n");
   }
 
   sampleTicker.attach(storage.settings.sampleRateMs / 1000.0, []
@@ -114,7 +117,7 @@ void loop()
 
     if (storage.settings.debug == 1)
     {
-      Serial.printf("Current_a = %f | Current_d = %d \n", measurement.current, adcMux.values[1]);
+      Serial.printf("Current_a = %f | Current_d = %d | ", measurement.current, adcMux.values[1]);
       Serial.printf("Voltage_a = %f | Voltage_d = %d \n", measurement.voltage, adcMux.values[0]);
     }
 

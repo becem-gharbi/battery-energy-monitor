@@ -12,6 +12,8 @@ bool Rtc::begin()
 
     RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__);
 
+    Serial.printf("[rtc] compiled time %s \n", _timeToStr(compiled).c_str());
+
     if (!_ds1302.IsDateTimeValid())
     {
         // Common Causes:
@@ -57,17 +59,22 @@ String Rtc::getTimeStr()
 {
     RtcDateTime now = getTime();
 
+    return _timeToStr(now);
+}
+
+String Rtc::_timeToStr(RtcDateTime time)
+{
     char timestamp[20];
 
     snprintf_P(timestamp,
                countof(timestamp),
                PSTR("%04u-%02u-%02u_%02u-%02u-%02u"), // Format YYYY-MM-DD_HH-MM-SS
-               now.Year(),
-               now.Month(),
-               now.Day(),
-               now.Hour(),
-               now.Minute(),
-               now.Second());
+               time.Year(),
+               time.Month(),
+               time.Day(),
+               time.Hour(),
+               time.Minute(),
+               time.Second());
 
     return timestamp;
 }
