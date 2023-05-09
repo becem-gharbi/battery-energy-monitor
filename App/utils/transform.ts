@@ -10,17 +10,26 @@ export function transformSession(session: Session) {
     };
 
     Papa.parse(session, {
-      complete: function (results) {
-        let parsedData = results.data as string[][];
+      header: true,
+      dynamicTyping: true,
 
-        parsedData.shift();
+      complete: function (results) {
+        let parsedData = results.data as {
+          Time: number;
+          Current: number;
+          Voltage: number;
+        }[];
 
         parsedData.forEach((el) => {
-          const timestamp = new Date(parseInt(el[0]) + session.lastModified);
+          if (!el.Time || !el.Current || !el.Voltage) {
+            return;
+          }
+
+          const timestamp = new Date(el.Time + session.lastModified);
           const localTimestamp =
             timestamp.getTime() - timestamp.getTimezoneOffset() * 60 * 1000;
-          const current = Number(parseFloat(el[1]).toFixed(2));
-          const voltage = Number(parseFloat(el[2]).toFixed(2));
+          const current = Number(el.Current.toFixed(2));
+          const voltage = Number(el.Voltage.toFixed(2));
           const power = Number((current * voltage).toFixed(2));
 
           measurements.current.push([localTimestamp, current]);
