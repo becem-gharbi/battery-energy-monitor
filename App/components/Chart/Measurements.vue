@@ -32,7 +32,6 @@ const options = computed<HighchartsOptions>(() => ({
             month: '%b \'%y',
             year: '%Y'
         },
-
     },
     yAxis: {
         title: {
@@ -41,15 +40,15 @@ const options = computed<HighchartsOptions>(() => ({
     },
     series: [{
         name: "Current",
-        type: 'line',
-        data: props.measurements?.current
+        type: 'spline',
+        data: props.measurements?.current,
     }, {
         name: "Voltage",
-        type: 'line',
+        type: 'spline',
         data: props.measurements?.voltage
     }, {
         name: "Power",
-        type: 'line',
+        type: 'spline',
         data: props.measurements?.power
     }],
 }))
