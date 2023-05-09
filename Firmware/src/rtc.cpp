@@ -18,19 +18,19 @@ bool Rtc::begin()
         //    1) first time you ran and the device wasn't running yet
         //    2) the battery on the device is low or even missing
 
-        Serial.println("[rtc] lost confidence in the DateTime");
+        Serial.printf("[rtc] lost confidence in the DateTime \n");
         _ds1302.SetDateTime(compiled);
     }
 
     if (_ds1302.GetIsWriteProtected())
     {
-        Serial.println("[rtc] was write protected, enabling writing now");
+        Serial.printf("[rtc] was write protected, enabling writing now \n");
         _ds1302.SetIsWriteProtected(false);
     }
 
     if (!_ds1302.GetIsRunning())
     {
-        Serial.println("[rtc] was not actively running, starting now");
+        Serial.printf("[rtc] was not actively running, starting now \n");
         _ds1302.SetIsRunning(true);
     }
 
@@ -38,16 +38,16 @@ bool Rtc::begin()
 
     if (now < compiled)
     {
-        Serial.println("[rtc] is older than compile time!  (Updating DateTime)");
+        Serial.printf("[rtc] is older than compile time!  (Updating DateTime) \n");
         _ds1302.SetDateTime(compiled);
     }
     else if (now > compiled)
     {
-        Serial.println("[rtc] is newer than compile time. (this is expected)");
+        Serial.printf("[rtc] is newer than compile time. (this is expected) \n");
     }
     else if (now == compiled)
     {
-        Serial.println("[rtc] is the same as compile time! (not expected but all is fine)");
+        Serial.printf("[rtc] is the same as compile time! (not expected but all is fine) \n");
     }
 
     return now.IsValid();
