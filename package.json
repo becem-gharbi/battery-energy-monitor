@@ -1,0 +1,11 @@
+{
+  "name": "battery-energy-monitor",
+  "version": "1.0.0",
+  "description": "A system that records voltage and current of a battery",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "npx changelogen --release && git push --follow-tags"
+  },
+  "author": "",
+  "license": "ISC"
+}
