@@ -1,5 +1,7 @@
 # Battery Energy monitor
 
+![manual](https://raw.githubusercontent.com/becem-gharbi/battery-energy-monitor/main/Documents/manual.jpg)  
+
 An embedded device that periodically reads a battery voltage and current through shunt resistor. Then saves the measurement to a Micro SD card. The output files can further be uploaded to a web app which displays the current, voltage and power graphs interactively.
 
 ## Hardware
