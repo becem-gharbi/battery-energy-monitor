@@ -30,8 +30,6 @@
 #define ADC_MUX_CMD_PIN 16
 #define ERROR_LED_PIN 2
 
-#define SAMPLE_RATE 1
-
 Rtc rtc(RTC_IO_PIN, RTC_SCLK_PIN, RTC_CE_PIN);
 AdcMux adcMux(ADC_MUX_CMD_PIN);
 Storage storage(SD_CS_PIN);
@@ -54,7 +52,7 @@ void setup()
   Serial.begin(9600);
 
   pinMode(ERROR_LED_PIN, OUTPUT);
-  digitalWrite(ERROR_LED_PIN, HIGH);
+  digitalWrite(ERROR_LED_PIN, HIGH); // Pulled up 
 
   while (!Serial)
   {
