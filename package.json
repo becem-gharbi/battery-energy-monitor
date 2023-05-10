@@ -1,6 +1,6 @@
 {
   "name": "battery-energy-monitor",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A system that records voltage and current of a battery",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
