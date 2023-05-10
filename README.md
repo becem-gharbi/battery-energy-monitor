@@ -45,6 +45,6 @@ The device can be setup via `settings.json` file, which should be placed and rea
 
 - The design of analog circuits is based on TI notes located under `/documents`.
 - For components dimensioning refer to `Calibration.xlsx` sheet.
-- The functioning of the circuit is supposed to be linear. Saturation should be taken into consideration, e.g LM358 output is saturated around 3.6V on 5V power supply.
+- The functioning of the circuit is supposed to be linear. Saturation should be taken into consideration, e.g LM358 output is saturated around 3.6V on 5V supply voltage.
 - ESP8266's ADC transfer function should be defined empirically for precise measurement.
 - The folder `battery_energy_monitor` located under `Place content inside in SD` should be placed at the root directory of the SD card. Then should be uploaded to the web app.
