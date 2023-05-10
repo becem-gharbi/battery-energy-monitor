@@ -5,10 +5,11 @@ An embedded device that periodically reads a battery voltage and current through
 ## Hardware
 
 - Microcontroller ESP8266 E12 module
-- Analog multiplexing with CD4053
+- Analog multiplexing using CD4053
 - Voltage sensing up to 84V
 - Bidirectional current sensing up to 27A
-- Analog filtering & buffering with LM348 opamp
+- Analog filtering & buffering using LM348 opamp
+- RTC using DS1302
 - Designed with Proteus v8.12
 
 ## Firmware
