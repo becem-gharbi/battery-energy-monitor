@@ -19,3 +19,16 @@ An embedded device that periodically reads a battery voltage and current through
 - Interactive charts via Highcharts library
 - UI components based on NaiveUI library
 - UI utilities via Tailwindcss
+
+## Settings
+The device can be setup via `settings.json` file, which should be placed and read from SD card. 
+
+| Field         | Value                                              | Notes                                  |
+|---------------|----------------------------------------------------|----------------------------------------|
+| debug         | Enable firmware debugging                          | Should be set to 0 on production       |
+| sampleRate    | The rate of analog reading in ms                   | Should be larger than 300ms            |
+| savingRate    | The rate of writing to SD card in ms               | Should be larger than sampleRate       |
+| currentGain   | The gain by which the analog reading is multiplied | Emperical or by calibration calculator |
+| currentOffset | The offset by which the analog reading is biased   | Emperical or by calibration calculator |
+| voltageGain   | The gain by which the analog reading is multiplied | Emperical or by calibration calculator |
+| voltageOffset | The offset by which the analog reading is biased   | Emperical or by calibration calculator |
