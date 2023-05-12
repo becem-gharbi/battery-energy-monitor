@@ -15,7 +15,7 @@
                             </template>
                         </n-button>
 
-                        <ColorModeToggler />
+                        <NaiveColorModeSwitch :text="false" secondary />
                     </div>
                 </template>
 
