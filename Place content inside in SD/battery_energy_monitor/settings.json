@@ -2,8 +2,8 @@
   "debug": 0,
   "sampleRate": 500,
   "savingRate": 5000,
-  "currentGain": 0.06417,
-  "currentOffset": -38.3052,
-  "voltageGain": 0.0786,
-  "voltageOffset": -0.882
+  "currentGain": -0.0584633,
+  "currentOffset": 34.5674,
+  "voltageGain": 0.0790135,
+  "voltageOffset": -0.214161
 }

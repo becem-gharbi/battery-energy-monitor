@@ -32,7 +32,7 @@ void AdcMux::_control(byte cmd)
           break;
      }
 
-     delay(20);
+     delay(2);
 }
 
 void AdcMux::update()
@@ -43,7 +43,7 @@ void AdcMux::update()
      {
           _control(i);
 
-          values[i] = _read();
+          values[i] = (values[i] * 9 + _read()) / 10;
      }
 }
 
