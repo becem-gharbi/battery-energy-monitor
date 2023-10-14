@@ -16,7 +16,7 @@ const props = defineProps<{
     width?: number
 }>()
 
-const naiveTheme = useNaiveTheme()
+const naiveTheme = useThemeVars()
 
 const highchartsOptions = computed<HighchartsOptions>(() => defu(
     props.options,
@@ -24,10 +24,10 @@ const highchartsOptions = computed<HighchartsOptions>(() => defu(
         chart: {
             height: props.height,
             width: props.width,
-            backgroundColor: naiveTheme.value.common?.bodyColor,
-            plotBackgroundColor: naiveTheme.value.common?.bodyColor,
+            backgroundColor: naiveTheme.value.bodyColor,
+            plotBackgroundColor: naiveTheme.value.bodyColor,
             style: {
-                fontFamily: naiveTheme.value.common?.fontFamily,
+                fontFamily: naiveTheme.value.fontFamily,
             },
         },
 
@@ -37,7 +37,7 @@ const highchartsOptions = computed<HighchartsOptions>(() => defu(
 
         title: {
             style: {
-                color: naiveTheme.value?.common?.textColor1
+                color: naiveTheme.value.textColor1
             }
         },
 
@@ -45,12 +45,12 @@ const highchartsOptions = computed<HighchartsOptions>(() => defu(
             lineColor: "#EDEDED82",
             title: {
                 style: {
-                    color: naiveTheme.value?.common?.textColor2,
+                    color: naiveTheme.value.textColor2,
                 }
             },
             labels: {
                 style: {
-                    color: naiveTheme.value?.common?.textColor2,
+                    color: naiveTheme.value.textColor2,
                 }
             },
         },
@@ -59,19 +59,19 @@ const highchartsOptions = computed<HighchartsOptions>(() => defu(
             gridLineColor: "#DBDBDB51",
             title: {
                 style: {
-                    color: naiveTheme.value?.common?.textColor2,
+                    color: naiveTheme.value.textColor2,
                 }
             },
             labels: {
                 style: {
-                    color: naiveTheme.value?.common?.textColor2,
+                    color: naiveTheme.value.textColor2,
                 }
             },
         },
 
         legend: {
             itemStyle: {
-                color: naiveTheme.value?.common?.textColor2
+                color: naiveTheme.value.textColor2
             }
         },
 

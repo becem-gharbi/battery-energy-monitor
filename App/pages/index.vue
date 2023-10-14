@@ -1,5 +1,5 @@
 <template>
-    <div class="page-center p-4">
+      <div class="page-center p-4">
         <DataSelect v-if="!settings" />
 
         <div v-else class="w-full">
@@ -55,18 +55,18 @@ const currentSessionSelect = ref()
 
 const sessionsSelect = computed<SelectOption[]>(() => sessions.value.map(el => ({
     label: el.name.split(".")[0],
-    value: el.lastModified
+    value: el.name
 })))
 
 watch(sessions, () => {
     if (sessions.value?.length > 0) {
         currentSession.value = sessions.value[0]
-        currentSessionSelect.value = currentSession.value?.lastModified
+        currentSessionSelect.value = currentSession.value?.name
     }
 })
 
 watch(currentSessionSelect, () => {
-    currentSession.value = sessions.value.find(el => el.lastModified === currentSessionSelect.value)
+    currentSession.value = sessions.value.find(el => el.name === currentSessionSelect.value)
 })
 
 watch(currentSession, async () => {
